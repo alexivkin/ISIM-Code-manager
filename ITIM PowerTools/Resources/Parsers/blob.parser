@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="1" UUID="09cd6065-038d-4c16-b823-1c6666fc6523" created="Wed Oct 20 08:43:20 PDT 2010" createdBy="root" main="blob" modified="Wed Oct 20 08:43:20 PDT 2010" modifiedBy="root" project="PowerTools" version="7.0">
+    <Parser name="blob">
+        <InheritFrom>system:/Parsers/ibmdi.ScriptParser</InheritFrom>
+        <parameter name="characterSet"/>
+        <parameter name="debug">false</parameter>
+        <parameter name="script"><![CDATA[//
+// This is a simple parser that writes and returns all lines to/from the input stream.
+//
+
+// write to file
+function writeEntry () { out.write(entry.getString("contents")); }
+
+// read from file line by line, replacing endlines
+function readEntryLinebyLineCRLF () {
+  var lines="";
+  str=inp.readLine();
+  // if already read everything
+  if (str == null){
+    result.setStatus (0);
+    result.setMessage ("End of input");
+    return;
+  }
+//  do {lines+=str+"\r\n"} while ((str = inp.readLine())!=null);
+//  lines=lines.substring(0,lines.length()-2);
+  entry.setAttribute ("contents", lines);
+  result.setStatus (1);
+}
+
+// read from file using buffered reads and respecting line ends
+function readEntry () {
+  var buffer = [""];
+  var cbuf = new char[1024];
+  var status = inp.read(cbuf,0,1024);
+  // if already read everything
+  if (status == -1){
+    result.setStatus (0);
+    result.setMessage ("End of input");
+    return;
+  }
+  while(status == 1024){
+//    main.logmsg("spitting --"+cbuf.join("")+"--");
+    buffer.push(cbuf.join(""));
+    status = inp.read(cbuf,0,1024);
+  }
+//    main.logmsg("spisdtting --"+cbuf.join("").substring(0,status)+"--");
+  buffer.push(cbuf.join("").substring(0,status));
+  entry.setAttribute("contents", buffer.join(""));
+//  main.logmsg(entry.getString("contents"));
+  result.setStatus (1);
+}
+]]></parameter>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+    </Parser>
+</MetamergeConfig>

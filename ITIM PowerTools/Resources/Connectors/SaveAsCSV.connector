@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="1" UUID="66572caa-93c9-417b-9545-e910d555b5ea" created="Wed Oct 20 08:43:16 PDT 2010" createdBy="root" main="SaveAsCSV" modified="Wed Oct 20 08:43:16 PDT 2010" modifiedBy="root" project="PowerTools" version="7.0">
+    <Connector name="SaveAsCSV">
+        <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+        <ConnectorMode>AddOnly</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="debug">false</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+            <parameter name="characterSet"/>
+            <parameter name="csvColumnSeparator">,</parameter>
+            <parameter name="csvColumns"/>
+            <parameter name="csvEnableQuoting">true</parameter>
+            <parameter name="csvLogLongLines">0</parameter>
+            <parameter name="csvWriteHeader">true</parameter>
+            <parameter name="debug">false</parameter>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <AttributeMapItem>
+                <Name>*</Name>
+                <Type>simple</Type>
+                <Simple>*</Simple>
+            </AttributeMapItem>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <Driver>CloudScape</Driver>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+            <Hook name="before_initialize">
+                <Name>before_initialize</Name>
+                <Script><![CDATA[var name="f:\\Data\\ITIM\\";
+var ext=".csv";
+var i=0;
+//mmmmm ...obfuscation...
+while (((new java.io.File(fileName=name+(i++)+ext)).exists())){}
+SaveContents.connector.setParam("filePath",fileName);
+task.logmsg("INFO","Saving snapshot to "+fileName);]]></Script>
+                <Enabled>false</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="initreconnect">false</parameter>
+            <parameter name="numberOfRetries">1</parameter>
+            <parameter name="retryDelay">10</parameter>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+        </PoolDefinition>
+        <PoolInstance>
+            <Enabled>false</Enabled>
+            <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+        </PoolInstance>
+        <InitializeOption>0</InitializeOption>
+    </Connector>
+</MetamergeConfig>

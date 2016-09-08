@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="1" UUID="b63695a5-3c98-481b-95b1-8208ab9deff0" created="Wed Oct 20 08:43:11 PDT 2010" createdBy="root" main="ExportAllWorkflows_raw" modified="Wed Oct 20 08:43:11 PDT 2010" modifiedBy="root" project="PowerTools" version="7.0">
+    <AssemblyLine name="ExportAllWorkflows_raw">
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="debug">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="SetOutputFile" state="Enabled"/>
+                <Component name="SaveData" state="Simulated"/>
+                <Component name="ITIM_LDAP" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <Connector name="ITIM_LDAP">
+                <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <UserComment/>
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <parameter name="automapADPassword">false</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="ldapAddAttr">false</parameter>
+                    <parameter name="ldapAuthenticationMethod">Simple</parameter>
+                    <parameter name="ldapPageSize">0</parameter>
+                    <parameter name="ldapPassword">9Ritgoydya@gen!</parameter>
+                    <parameter name="ldapReferrals">follow</parameter>
+                    <parameter name="ldapSearchBase">dc=dev,dc=dom</parameter>
+                    <parameter name="ldapSearchFilter">(objectclass=erWorkflowDefinition)</parameter>
+                    <parameter name="ldapSearchScope">subtree</parameter>
+                    <parameter name="ldapSizeLimit">0</parameter>
+                    <parameter name="ldapTimeLimit">0</parameter>
+                    <parameter name="ldapUrl">ldap://advtimd:389</parameter>
+                    <parameter name="ldapUseSSL">false</parameter>
+                    <parameter name="ldapUsername">cn=e99818</parameter>
+                    <parameter name="ldapVLVPageSize">0</parameter>
+                    <parameter name="simulateRename">true</parameter>
+                    <parameter name="userComment"/>
+                </Configuration>
+                <ComputeChanges>true</ComputeChanges>
+                <DeltaBehavior>0</DeltaBehavior>
+                <DeltaStrict>true</DeltaStrict>
+                <Parser>
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>erCategory</Name>
+                        <Type>simple</Type>
+                        <Simple>erCategory</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erProcessName</Name>
+                        <Type>simple</Type>
+                        <Simple>erProcessName</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erXML</Name>
+                        <Type>simple</Type>
+                        <Simple>erXML</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erglobalid</Name>
+                        <Type>simple</Type>
+                        <Simple>erglobalid</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erlastmodifiedtime</Name>
+                        <Type>simple</Type>
+                        <Simple>erlastmodifiedtime</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erversionid</Name>
+                        <Type>simple</Type>
+                        <Simple>erversionid</Simple>
+                    </AttributeMapItem>
+                    <NullBehavior>Empty String</NullBehavior>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <SchemaItem>
+                        <Name>$dn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erCategory</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erProcessName</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erXML</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erglobalid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erlastmodifiedtime</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erprocessname</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erversionid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erxml</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectclass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <AdvancedLinkMode>false</AdvancedLinkMode>
+                    <Script><![CDATA[ret.filter = "";
+]]></Script>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <Hook name="default_ok">
+                        <Name>default_ok</Name>
+                        <Script><![CDATA[//task.logmsg(thisConnector.getName()+": Default Success");
+//system.dumpEntry(work);]]></Script>
+                        <Enabled>false</Enabled>
+                        <DebugBreak>false</DebugBreak>
+                    </Hook>
+                    <Hook name="lookup_multiple">
+                        <Name>lookup_multiple</Name>
+                        <Script>task.logmsg("error",thisConnector.getName()+": Mulitple entries found for " + work.getString("lookupemployeeid"));</Script>
+                        <Enabled>true</Enabled>
+                        <DebugBreak>false</DebugBreak>
+                    </Hook>
+                    <Hook name="lookup_nomatch">
+                        <Name>lookup_nomatch</Name>
+                        <Script><![CDATA[task.logmsg("debug",thisConnector.getName()+": On No Match for " + work.getString("lookupemployeeid"));
+//system.skipEntry();]]></Script>
+                        <Enabled>true</Enabled>
+                        <DebugBreak>false</DebugBreak>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="initreconnect">false</parameter>
+                    <parameter name="numberOfRetries">1</parameter>
+                    <parameter name="retryDelay">10</parameter>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <Enabled>false</Enabled>
+                    <MinPoolSize>0</MinPoolSize>
+                    <PurgeInterval>0</PurgeInterval>
+                    <InitializeAttempts>1</InitializeAttempts>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <Connector name="SetOutputFile">
+                <ConnectorMode>Script</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration/>
+                <ConnectorScript><![CDATA[var name=getExternalProperty("WorkflowExportRawFolder")+"\\"+work.getString("erglobalid")+"_"+work.getString("erProcessName")+"_"+work.getString("erCategory")+"_";
+var ext=".xml";
+var i=0;
+//mmmmm ...obfuscation...this loop looks for the next file name that does not exist yet starting with "name" ending with "ext"
+while (((new java.io.File(fileName=name+(i++)+ext)).exists())){}
+SaveData.connector.setParam("filePath",fileName);
+task.logmsg("INFO","Saving snapshot to "+fileName);
+]]></ConnectorScript>
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input"/>
+                <AttributeMap name="Output"/>
+                <DeltaSettings>
+                    <Driver>BTree</Driver>
+                </DeltaSettings>
+                <Schema name="Input"/>
+                <Schema name="Output"/>
+                <LinkCriteria/>
+                <Hooks/>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+            <Connector name="SaveData">
+                <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                <ConnectorMode>AddOnly</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="debug">false</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+                    <parameter name="attributeName">erdata</parameter>
+                    <parameter name="characterSet"/>
+                    <parameter name="csvColumnSeparator">,</parameter>
+                    <parameter name="csvEnableQuoting">false</parameter>
+                    <parameter name="csvLogLongLines">0</parameter>
+                    <parameter name="csvWriteHeader">false</parameter>
+                    <parameter name="debug">false</parameter>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[no inheritance]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>*</Name>
+                        <Type>simple</Type>
+                        <Simple>*</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="initreconnect">false</parameter>
+                    <parameter name="numberOfRetries">1</parameter>
+                    <parameter name="retryDelay">10</parameter>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>3</InitializeOption>
+            </Connector>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

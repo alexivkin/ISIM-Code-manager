@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="1" UUID="f0cf8be2-7ba6-46e6-a53e-b8a196c30b6e" created="Wed Oct 20 08:42:33 PDT 2010" createdBy="root" modified="Wed Oct 20 08:42:33 PDT 2010" modifiedBy="root" project="PowerTools" version="7.0">
+    <Container>
+        <Container name="Data"/>
+        <Properties name="Config">
+            <Stores>
+                <PropertyStore name="PowerTools">
+                    <Parser>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <RawConnector>
+                        <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                        <parameter name="collection">@SUBSTITUTE{config.$directory}/PowerTools.properties</parameter>
+                        <parameter name="collectionType">PowerTools</parameter>
+                    </RawConnector>
+                    <Key>key</Key>
+                    <Value>value</Value>
+                    <ReadOnly>false</ReadOnly>
+                    <InitialLoad>true</InitialLoad>
+                    <CacheTimeout>0</CacheTimeout>
+                </PropertyStore>
+            </Stores>
+        </Properties>
+    </Container>
+</MetamergeConfig>

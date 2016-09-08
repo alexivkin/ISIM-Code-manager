@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="1" UUID="2e2a7407-0dde-466f-baba-6aa23b51f3bb" created="Wed Oct 20 08:43:17 PDT 2010" createdBy="root" main="LoadAsXML" modified="Wed Oct 20 08:43:17 PDT 2010" modifiedBy="root" project="PowerTools" version="7.0">
+    <Connector name="LoadAsXML">
+        <InheritFrom>/Connectors/SaveAsXML</InheritFrom>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="filePath">F:\Data\ITIM\ITIM_erADAccount_BooleanValues.xml</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="xmlRootTag">ITIMEntry</parameter>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <Driver>CloudScape</Driver>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+        </PoolDefinition>
+        <PoolInstance>
+            <Enabled>false</Enabled>
+            <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+        </PoolInstance>
+        <InitializeOption>0</InitializeOption>
+    </Connector>
+</MetamergeConfig>

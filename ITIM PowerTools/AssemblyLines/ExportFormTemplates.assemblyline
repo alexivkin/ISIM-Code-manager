@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="2" UUID="1743eb5e-5e53-4fa0-9a3b-b4b5e948ad8f" created="Wed Oct 20 08:43:12 PDT 2010" createdBy="root" main="ExportFormTemplates" modified="Thu Sep 08 00:33:08 UTC 2016" modifiedBy="developer" project="PowerTools" version="7.1.1">
+    <AssemblyLine name="ExportFormTemplates">
+        <ModTime>1473294671110</ModTime>
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="debug">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="SetOutputFile" state="Enabled"/>
+                <Component name="SaveData_csv" state="Simulated"/>
+                <Component name="SaveData_xml" state="Simulated"/>
+                <Component name="SaveData_blob" state="Simulated"/>
+                <Component name="ITIM_FormTemplates" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1473294671110</ModTime>
+            <Connector name="ITIM_FormTemplates">
+                <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                <ModTime>1473294671110</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <UserComment/>
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <parameter name="automapADPassword">false</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="ldapAddAttr">false</parameter>
+                    <parameter name="ldapAuthenticationMethod">Simple</parameter>
+                    <parameter name="ldapPageSize">0</parameter>
+                    <parameter name="ldapPassword">@SUBSTITUTE{property.ITIM:LDAP.Password}</parameter>
+                    <parameter name="ldapReferrals">follow</parameter>
+                    <parameter name="ldapSearchBase">@SUBSTITUTEou=formTemplates,ou=itim,{property.ITIM:LDAP.SearchBase}</parameter>
+                    <parameter name="ldapSearchFilter">(objectclass=erFormTemplate)</parameter>
+                    <parameter name="ldapSearchScope">subtree</parameter>
+                    <parameter name="ldapSizeLimit">0</parameter>
+                    <parameter name="ldapTimeLimit">0</parameter>
+                    <parameter name="ldapUrl">@SUBSTITUTE{property.ITIM:LDAP.Url}</parameter>
+                    <parameter name="ldapUseSSL">false</parameter>
+                    <parameter name="ldapUsername">@SUBSTITUTE{property.ITIM:LDAP.Username}</parameter>
+                    <parameter name="ldapVLVPageSize">0</parameter>
+                    <parameter name="simulateRename">true</parameter>
+                </Configuration>
+                <ComputeChanges>true</ComputeChanges>
+                <DeltaBehavior>0</DeltaBehavior>
+                <DeltaStrict>true</DeltaStrict>
+                <Parser>
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>erformname</Name>
+                        <Type>simple</Type>
+                        <Simple>erformname</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erxml</Name>
+                        <Type>simple</Type>
+                        <Simple>erxml</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>objectclass</Name>
+                        <Type>simple</Type>
+                        <Simple>objectclass</Simple>
+                    </AttributeMapItem>
+                    <NullBehavior>Empty String</NullBehavior>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <ModTime>1473294671110</ModTime>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <SchemaItem>
+                        <Name>$dn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erAcl</Name>
+                        <NativeSyntax>MAY/Binary</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erAuthorizationOwner</Name>
+                        <NativeSyntax>MAY/DN</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erCustomClass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MUST/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erFormName</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MUST/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erGlobalId</Name>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erIsDeleted</Name>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erLastModifiedTime</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erLifecycleEnable</Name>
+                        <NativeSyntax>MAY/Boolean/Flag for lifecycle operation on an entity</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erParent</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/DN</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erXML</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Binary</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectClass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MUST/OID/The values of the objectClass attribute describe the kind of object which an entry represents.</NativeSyntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <AdvancedLinkMode>false</AdvancedLinkMode>
+                    <Script><![CDATA[ret.filter = "";
+]]></Script>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <Hook name="default_ok">
+                        <Name>default_ok</Name>
+                        <Script><![CDATA[//task.logmsg(thisConnector.getName()+": Default Success");
+//system.dumpEntry(work);]]></Script>
+                        <Enabled>false</Enabled>
+                        <DebugBreak>false</DebugBreak>
+                    </Hook>
+                    <Hook name="lookup_multiple">
+                        <Name>lookup_multiple</Name>
+                        <Script>task.logmsg("error",thisConnector.getName()+": Mulitple entries found for " + work.getString("lookupemployeeid"));</Script>
+                        <Enabled>true</Enabled>
+                        <DebugBreak>false</DebugBreak>
+                    </Hook>
+                    <Hook name="lookup_nomatch">
+                        <Name>lookup_nomatch</Name>
+                        <Script><![CDATA[task.logmsg("debug",thisConnector.getName()+": On No Match for " + work.getString("lookupemployeeid"));
+//system.skipEntry();]]></Script>
+                        <Enabled>true</Enabled>
+                        <DebugBreak>false</DebugBreak>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+                    <Enabled>false</Enabled>
+                    <MinPoolSize>0</MinPoolSize>
+                    <PurgeInterval>0</PurgeInterval>
+                    <InitializeAttempts>1</InitializeAttempts>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <Connector name="SetOutputFile">
+                <ConnectorMode>Script</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration/>
+                <ConnectorScript><![CDATA[var name=getExternalProperty("FormTemplatesExportFolder")+"\\"+work.getString("erFormName")+".xml";
+//if ((new java.io.File(name)).exists()){
+//  task.logmsg("ERROR","Workflow was exported already");
+//  system.shutdown();
+//}
+SaveData_blob.connector.setParam("filePath",name);
+task.logmsg("INFO","Saving snapshot to "+name);
+]]></ConnectorScript>
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input"/>
+                <AttributeMap name="Output"/>
+                <DeltaSettings>
+                    <Driver>BTree</Driver>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria/>
+                <Hooks/>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+            <Connector name="SaveData_csv">
+                <InheritFrom>/Connectors/SaveAsCSV</InheritFrom>
+                <ConnectorMode>AddOnly</ConnectorMode>
+                <ConnectorState>Disabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="csvColumns"><![CDATA[cn
+erEnabled
+erIsReadOnly
+erTemplateName
+erSubject
+erText
+erXHTML]]></parameter>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[no inheritance]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>cn</Name>
+                        <Type>simple</Type>
+                        <Simple>cn</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erEnabled</Name>
+                        <Type>simple</Type>
+                        <Simple>erEnabled</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erIsReadOnly</Name>
+                        <Type>simple</Type>
+                        <Simple>erIsReadOnly</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erTemplateName</Name>
+                        <Type>simple</Type>
+                        <Simple>erTemplateName</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erXHTML</Name>
+                        <Type>simple</Type>
+                        <Simple>erXHTML</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>ersubject</Name>
+                        <Type>simple</Type>
+                        <Simple>ersubject</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>ertext</Name>
+                        <Type>simple</Type>
+                        <Simple>ertext</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>2</InitializeOption>
+            </Connector>
+            <Connector name="SaveData_xml">
+                <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+                <ConnectorMode>AddOnly</ConnectorMode>
+                <ConnectorState>Disabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="debug">false</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>system:/Parsers/ibmdi.XML</InheritFrom>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="isnamespaceaware">false</parameter>
+                    <parameter name="isvalidating">false</parameter>
+                    <parameter name="omitxmldeclaration">true</parameter>
+                    <parameter name="xmlEntryTag">entry</parameter>
+                    <parameter name="xmlRootTag">MailTemplate</parameter>
+                    <parameter name="xmlValueTag">value</parameter>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>cn</Name>
+                        <Type>simple</Type>
+                        <Simple>cn</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erEnabled</Name>
+                        <Type>simple</Type>
+                        <Simple>erEnabled</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erIsReadOnly</Name>
+                        <Type>simple</Type>
+                        <Simple>erIsReadOnly</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erTemplateName</Name>
+                        <Type>simple</Type>
+                        <Simple>erTemplateName</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>erXHTML</Name>
+                        <Type>simple</Type>
+                        <Simple>erXHTML</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>ersubject</Name>
+                        <Type>simple</Type>
+                        <Simple>ersubject</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>ertext</Name>
+                        <Type>simple</Type>
+                        <Simple>ertext</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>objectclass</Name>
+                        <Type>simple</Type>
+                        <Simple>objectclass</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>2</InitializeOption>
+            </Connector>
+            <Connector name="SaveData_blob">
+                <InheritFrom>/Connectors/SaveAsBlob</InheritFrom>
+                <ConnectorMode>AddOnly</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>contents</Name>
+                        <Type>simple</Type>
+                        <Simple>erxml</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>contents</Name>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>3</InitializeOption>
+            </Connector>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

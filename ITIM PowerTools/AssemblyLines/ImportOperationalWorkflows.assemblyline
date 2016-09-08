@@ -1,0 +1,1205 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="2" UUID="f6c5e294-404d-4ef5-ae78-6eed0aa56719" created="Wed Oct 20 08:43:11 PDT 2010" createdBy="root" main="ImportOperationalWorkflows" modified="Thu Sep 08 00:33:08 UTC 2016" modifiedBy="developer" project="PowerTools" version="7.1.1">
+    <AssemblyLine name="ImportOperationalWorkflows">
+        <ModTime>1473294764275</ModTime>
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="debug">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="loadAsBlob" state="Enabled"/>
+                <Component name="createOrUpdateWorkflow" state="Simulated"/>
+                <Component name="checkService" state="Enabled"/>
+                <Component name="IfWorkflowNotLinked" state="Enabled"/>
+                <Component name="addLink" state="Enabled"/>
+                <Component name="linkWorkflow" state="Simulated"/>
+                <Component name="dump" state="Enabled"/>
+                <Component name="folderScan" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1473294764275</ModTime>
+            <Connector name="folderScan">
+                <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+                <ModTime>1473294764275</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="includeFiles"/>
+                    <parameter name="includePrologs">getExternalProperty</parameter>
+                    <parameter name="script"><![CDATA[// FileScan Connector
+var vrs = "v.1.0";
+var baseDir = getExternalProperty("WorkflowImportFolder");
+var extension = ".xml";
+
+// Here comes the initialization code
+
+main.logmsg("DEBUG","** FileScan Connector " + vrs + " initializing");
+
+var filePath = [];
+var fileName = [];
+var lastModList = [];
+var fileIndex = 0;
+
+if (baseDir == null)
+  baseDir = "./"; // Default to solution-directory
+
+main.logmsg("** FileScan Connector: Scanning specified directory :\"" + baseDir + "\"");
+
+//scanDirectory(baseDir); //works the current folder and the subfolders
+listFiles(baseDir); // does not go into subfolders
+
+main.logmsg("** FileScan Connector: " + filePath.length + " file(s) found");
+//java.lang.System.out.println("** FileScan Connector: " + new java.util.Date() + " ** " + filePath.length + " file(s) found");
+//java.lang.System.out.println("** FileScan Connector: " + filePath);
+//java.lang.System.out.println("** FileScan Connector: " + lastModList);
+
+
+
+//===  Function definitions ===
+
+function scanDirectory(fName) {
+  var fObj = new java.io.File(fName);
+  if (fObj == null)
+    throw "Scan directory/file (" + fName + ") not found"
+  else
+  if (fObj.isFile() && contents[i].getName().endsWith(extension)) {
+    fileIndex++;
+    filePath[fileIndex] = fObj.getCanonicalPath()
+    fileName[fileIndex] = fObj.getName();
+    lastModList[fileIndex] = fObj.lastModified();
+  } else
+  if (fObj.isDirectory()) {
+    var contents = fObj.listFiles();
+    if (contents != null)
+      for (var i = 0; i < contents.length; i++)
+        getScanList(contents[i]);
+  }
+}
+
+function listFiles(fName) {
+  var fObj = new java.io.File(fName);
+  var contents = fObj.listFiles();
+  if (contents != null){
+    for (var i = 0; i < contents.length; i++){
+      if (contents[i].isFile() && contents[i].getName().endsWith(extension)) {
+        filePath[fileIndex] = contents[i].getCanonicalPath()
+        fileName[fileIndex] = contents[i].getName();
+        lastModList[fileIndex] = contents[i].lastModified();
+        fileIndex++;
+      }
+//      if (contents[i].isDirectory()) {
+//        main.logmsg("** FileScan Connector: Directory" + fObj.getName());
+//        listFiles(contents[i]);
+//      }
+    }
+  }
+}
+
+function selectEntries()
+{
+  fileIndex = 0;
+}
+
+function getNextEntry ()
+{
+
+  if (fileIndex >= filePath.length) {
+    result.setStatus (0);
+    result.setMessage ("End of input");
+    return;
+  }
+
+  entry.setAttribute("filePath", filePath[fileIndex]);
+  entry.setAttribute("fileName", fileName[fileIndex]);
+  entry.setAttribute("fileLastModified", lastModList[fileIndex]);
+  entry.setAttribute("fileIndex", fileIndex);
+
+  fileIndex++;
+}
+]]></parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>fileIndex</Name>
+                        <Type>simple</Type>
+                        <Simple>fileIndex</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>fileLastModified</Name>
+                        <Type>simple</Type>
+                        <Simple>fileLastModified</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>fileName</Name>
+                        <Type>simple</Type>
+                        <Simple>fileName</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>filePath</Name>
+                        <Type>simple</Type>
+                        <Simple>filePath</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <ModTime>1473294764275</ModTime>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>fileIndex</Name>
+                        <Syntax>java.lang.Double</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>fileLastModified</Name>
+                        <Syntax>java.lang.Double</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>fileName</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>filePath</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1473294748344</ModTime>
+            <Connector name="loadAsBlob">
+                <InheritFrom>/Connectors/LoadAsBlob</InheritFrom>
+                <ModTime>1473294748344</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="filePath">@SUBSTITUTE{work.filePath}</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>/Parsers/blob</InheritFrom>
+                    <parameter name="attributeName">line</parameter>
+                    <parameter name="characterSet"/>
+                    <parameter name="csvEnableQuoting">true</parameter>
+                    <parameter name="csvLogLongLines">0</parameter>
+                    <parameter name="csvWriteHeader">true</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="isnamespaceaware">false</parameter>
+                    <parameter name="isvalidating">false</parameter>
+                    <parameter name="omitxmldeclaration">false</parameter>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>contents</Name>
+                        <Type>simple</Type>
+                        <Simple>contents</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>operationID</Name>
+                        <Type>advanced</Type>
+                        <Script><![CDATA[var fileName = work.getString("fileName");
+ret.value = fileName.substring(fileName.lastIndexOf("_")+1,fileName.lastIndexOf("."));]]></Script>
+                        <Simple>operationID</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <ModTime>1473294748344</ModTime>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>contents</Name>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>contents</Name>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>3</InitializeOption>
+            </Connector>
+            <Connector name="createOrUpdateWorkflow">
+                <InheritFrom>/Connectors/ITIM_objectProfile</InheritFrom>
+                <ConnectorMode>Update</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="ldapSearchBase">@SUBSTITUTEou=operations,ou=itim,{property.ITIM:LDAP.SearchBase}</parameter>
+                    <parameter name="ldapSearchFilter">(objectclass=erWorkflowDefinition)</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>erXML</Name>
+                        <Type>simple</Type>
+                        <Simple>contents</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>$dn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erattrmap</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ercategory</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ercustomclass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erlifecyclerule</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erobjectprofilename</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>errdnattr</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ersearchattr</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erxml</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectclass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>$dn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ercategory</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erglobalid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erlastmodifiedtime</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erprocessname</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erversionid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erxml</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectclass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <AdvancedLinkMode>false</AdvancedLinkMode>
+                    <Script><![CDATA[ret.filter = "erglobalid="+fileName.substring(fileName.lastIndexOf("_")+1,fileName.lastIndexOf("."));
+]]></Script>
+                    <LinkCriteriaItem>
+                        <Key>118f2496e34</Key>
+                        <Attribute>erglobalid</Attribute>
+                        <Operator>equals</Operator>
+                        <Value>$operationID</Value>
+                    </LinkCriteriaItem>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <Hook name="modify_apply">
+                        <Name>modify_apply</Name>
+                        <Script><![CDATA[task.logmsg("Modifying "+work.getString("operationID"));
+//task.dumpEntry(conn);
+//task.dumpEntry(current);]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="override_add">
+                        <Name>override_add</Name>
+                        <Script>task.logmsg("Not gonna add "+work.getString("operationID"));</Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+            <Connector name="checkService">
+                <InheritFrom>/Connectors/ITIM_Service_Entries</InheritFrom>
+                <ConnectorMode>Lookup</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>$dn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>cn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/String/This is the X.500 commonName attribute, which contains a name of an object.  If the object corresponds to a person, it is typically the persons full name.</NativeSyntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>departmentnumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>description</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>employeenumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>employeestatus</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erCustomConstraint</Name>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erDefaultValue</Name>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erIsReadOnly</Name>
+                        <NativeSyntax>MAY/Boolean</NativeSyntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erOid</Name>
+                        <NativeSyntax>MUST/Directory String</NativeSyntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erType</Name>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>eraliases</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ercreatedate</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erglobalid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erlastmodifiedtime</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erparent</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erpersonstatus</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ferccode</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>givenname</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>l</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>mail</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>mailstop</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>manager</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>middlename</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectClass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MUST/OID/The values of the objectClass attribute describe the kind of object which an entry represents.</NativeSyntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>positionnumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>reportstoemployeeid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>reportstopositionnbr</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>sn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>telephonenumber</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>title</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>uid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <Presence>null</Presence>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>$dn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>description</Name>
+                        <NativeSyntax>MAY/Directory String/Attribute common to CIM and LDAP schema to provide lengthy description of a directory object entry.</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erAcl</Name>
+                        <NativeSyntax>MAY/Binary</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erAttrMap</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erAuthorizationOwner</Name>
+                        <NativeSyntax>MAY/DN</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erCategory</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erCustomClass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erGlobalId</Name>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erIsDeleted</Name>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erLastModifiedTime</Name>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erLifecycleEnable</Name>
+                        <NativeSyntax>MAY/Boolean/Flag for lifecycle operation on an entity</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erLifecycleRule</Name>
+                        <NativeSyntax>MAY/Binary/Lifecycle rule data</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erObjectProfileName</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MUST/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erParent</Name>
+                        <NativeSyntax>MAY/DN</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erProfileName</Name>
+                        <NativeSyntax>MAY/Directory String/Profile name of an object</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erRdnAttr</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erSearchAttr</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MAY/Directory String</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erXML</Name>
+                        <NativeSyntax>MAY/Binary</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>eraccountclass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>eraccountname</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erproperties</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erprotocolmappings</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erserviceproviderfactory</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectClass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                        <NativeSyntax>MUST/OID/The values of the objectClass attribute describe the kind of object which an entry represents.</NativeSyntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ou</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+            <Branch name="IfWorkflowNotLinked">
+                <Connector name="addLink">
+                    <ConnectorMode>Script</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration/>
+                    <ConnectorScript>// not yet implemented</ConnectorScript>
+                    <Parser>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input"/>
+                    <AttributeMap name="Output"/>
+                    <DeltaSettings>
+                        <Driver>BTree</Driver>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria/>
+                    <Hooks/>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+                <Connector name="linkWorkflow">
+                    <InheritFrom>/Connectors/ITIM_Service_Entries</InheritFrom>
+                    <ConnectorMode>Update</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <AttributeMapItem>
+                            <Name>erXML</Name>
+                            <Type>simple</Type>
+                            <Script>ret.value = work.getAttribute("erXML");</Script>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <Driver>CloudScape</Driver>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$dn</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>cn</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <NativeSyntax>MAY/String/This is the X.500 commonName attribute, which contains a name of an object.  If the object corresponds to a person, it is typically the persons full name.</NativeSyntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>departmentnumber</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>description</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>employeenumber</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>employeestatus</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erCustomConstraint</Name>
+                            <NativeSyntax>MAY/Directory String</NativeSyntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erDefaultValue</Name>
+                            <NativeSyntax>MAY/Directory String</NativeSyntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erIsReadOnly</Name>
+                            <NativeSyntax>MAY/Boolean</NativeSyntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erOid</Name>
+                            <NativeSyntax>MUST/Directory String</NativeSyntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erType</Name>
+                            <NativeSyntax>MAY/Directory String</NativeSyntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>eraliases</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ercreatedate</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erglobalid</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erlastmodifiedtime</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erparent</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erpersonstatus</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ferccode</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>givenname</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>l</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>mail</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>mailstop</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>manager</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>middlename</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>objectClass</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <NativeSyntax>MUST/OID/The values of the objectClass attribute describe the kind of object which an entry represents.</NativeSyntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>positionnumber</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>reportstoemployeeid</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>reportstopositionnbr</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>sn</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>telephonenumber</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>title</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>uid</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <Presence>null</Presence>
+                        </SchemaItem>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <SchemaItem>
+                            <Name>$dn</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>description</Name>
+                            <NativeSyntax>MAY/Directory String/Attribute common to CIM and LDAP schema to provide lengthy description of a directory object entry.</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erAcl</Name>
+                            <NativeSyntax>MAY/Binary</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erAttrMap</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <NativeSyntax>MAY/Directory String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erAuthorizationOwner</Name>
+                            <NativeSyntax>MAY/DN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erCategory</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <NativeSyntax>MAY/Directory String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erCustomClass</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <NativeSyntax>MAY/Directory String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erGlobalId</Name>
+                            <NativeSyntax>MAY/Directory String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erIsDeleted</Name>
+                            <NativeSyntax>MAY/Directory String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erLastModifiedTime</Name>
+                            <NativeSyntax>MAY/Directory String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erLifecycleEnable</Name>
+                            <NativeSyntax>MAY/Boolean/Flag for lifecycle operation on an entity</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erLifecycleRule</Name>
+                            <NativeSyntax>MAY/Binary/Lifecycle rule data</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erObjectProfileName</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <NativeSyntax>MUST/Directory String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erParent</Name>
+                            <NativeSyntax>MAY/DN</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erProfileName</Name>
+                            <NativeSyntax>MAY/Directory String/Profile name of an object</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erRdnAttr</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <NativeSyntax>MAY/Directory String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erSearchAttr</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <NativeSyntax>MAY/Directory String</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erXML</Name>
+                            <NativeSyntax>MAY/Binary</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>eraccountclass</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>eraccountname</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erproperties</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erprotocolmappings</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>erserviceproviderfactory</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>objectClass</Name>
+                            <Syntax>java.lang.String</Syntax>
+                            <NativeSyntax>MUST/OID/The values of the objectClass attribute describe the kind of object which an entry represents.</NativeSyntax>
+                        </SchemaItem>
+                        <SchemaItem>
+                            <Name>ou</Name>
+                            <Syntax>java.lang.String</Syntax>
+                        </SchemaItem>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance>
+                        <Enabled>false</Enabled>
+                        <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                    </PoolInstance>
+                    <InitializeOption>0</InitializeOption>
+                </Connector>
+                <Conditions/>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>0</Type>
+            </Branch>
+            <Connector name="dump">
+                <ConnectorMode>Script</ConnectorMode>
+                <ConnectorState>Disabled</ConnectorState>
+                <Configuration/>
+                <ConnectorScript><![CDATA[//task.dumpEntry(work);
+task.logmsg("contents="+work.getString("contents"));]]></ConnectorScript>
+                <Parser>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input"/>
+                <AttributeMap name="Output"/>
+                <DeltaSettings>
+                    <Driver>BTree</Driver>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria/>
+                <Hooks/>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

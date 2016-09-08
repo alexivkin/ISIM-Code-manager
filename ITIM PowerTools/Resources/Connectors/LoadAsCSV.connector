@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="1" UUID="6c344632-9943-44c7-aa22-3636514797a2" created="Wed Oct 20 08:43:18 PDT 2010" createdBy="root" main="LoadAsCSV" modified="Wed Oct 20 08:43:18 PDT 2010" modifiedBy="root" project="PowerTools" version="7.0">
+    <Connector name="LoadAsCSV">
+        <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="debug">false</parameter>
+            <parameter name="filePath">F:\Data\ITIM\EMS Services List_PROD.csv</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>system:/Parsers/ibmdi.CSV</InheritFrom>
+            <parameter name="characterSet"/>
+            <parameter name="csvColumnSeparator">,</parameter>
+            <parameter name="csvEnableQuoting">true</parameter>
+            <parameter name="csvLogLongLines">0</parameter>
+            <parameter name="csvWriteHeader">true</parameter>
+            <parameter name="debug">false</parameter>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <Driver>CloudScape</Driver>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+            <SchemaItem>
+                <Name>AppRole recon time</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>AppRoles Described</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Application</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Application Administrator</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Asset Approvers</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Asset Owner</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Escalation for App Admin</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>FERC Code</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Query type</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Requires SOD Check</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Resource Type</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>ResourceName1</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>ResourceName2</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Sage App DB Name</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Sage DB</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Server Name</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>Staff Role</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>TIM Service Name</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>User Accounts recon time</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>User Supporting recon time</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="initreconnect">false</parameter>
+            <parameter name="numberOfRetries">1</parameter>
+            <parameter name="retryDelay">10</parameter>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+        </PoolDefinition>
+        <PoolInstance/>
+        <InitializeOption>0</InitializeOption>
+    </Connector>
+</MetamergeConfig>

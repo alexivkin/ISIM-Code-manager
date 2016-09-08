@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="1" UUID="436e6950-79e7-4d3e-89b8-107c2906bc5f" created="Wed Oct 20 08:43:17 PDT 2010" createdBy="root" main="LoadAsBlob" modified="Wed Oct 20 08:43:17 PDT 2010" modifiedBy="root" project="PowerTools" version="7.0">
+    <Connector name="LoadAsBlob">
+        <InheritFrom>/Connectors/SaveAsBlob</InheritFrom>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="filePath">@SUBSTITUTE{work.filePath}</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+            <AttributeMapItem>
+                <Name>contents</Name>
+                <Type>simple</Type>
+                <Simple>contents</Simple>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>operationID</Name>
+                <Type>advanced</Type>
+                <Script><![CDATA[var fileName = work.getString("fileName");
+ret.value = fileName.substring(0,fileName.lastIndexOf("."));]]></Script>
+                <Simple>operationID</Simple>
+            </AttributeMapItem>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <Driver>CloudScape</Driver>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+            <SchemaItem>
+                <Name>contents</Name>
+            </SchemaItem>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <SchemaItem>
+                <Name>contents</Name>
+            </SchemaItem>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+        </PoolDefinition>
+        <PoolInstance>
+            <Enabled>false</Enabled>
+            <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+        </PoolInstance>
+        <InitializeOption>0</InitializeOption>
+    </Connector>
+</MetamergeConfig>

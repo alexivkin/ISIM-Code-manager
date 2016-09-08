@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="1" UUID="9fe864c8-72db-4a07-bfa7-c095426c8127" created="Wed Oct 20 08:43:17 PDT 2010" createdBy="root" main="FolderScan" modified="Wed Oct 20 08:43:17 PDT 2010" modifiedBy="root" project="PowerTools" version="7.0">
+    <Connector name="FolderScan">
+        <InheritFrom>system:/Connectors/ibmdi.ScriptConnector</InheritFrom>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="debug">false</parameter>
+            <parameter name="includeFiles"/>
+            <parameter name="script"><![CDATA[// FileScan Connector
+var vrs = "v.1.0";
+var baseDir = getExternalProperty("WorkflowImportFolder");
+var extension = ".xml";
+
+// Here comes the initialization code
+
+main.logmsg("DEBUG","** FileScan Connector " + vrs + " initializing");
+
+var filePath = [];
+var fileName = [];
+var lastModList = [];
+var fileIndex = 0;
+
+if (baseDir == null)
+  baseDir = "./"; // Default to solution-directory
+
+main.logmsg("** FileScan Connector: Scanning specified directory :\"" + baseDir + "\"");
+
+//scanDirectory(baseDir); //works the current folder and the subfolders
+listFiles(baseDir); // does not go into subfolders
+
+main.logmsg("** FileScan Connector: " + filePath.length + " file(s) found");
+//java.lang.System.out.println("** FileScan Connector: " + new java.util.Date() + " ** " + filePath.length + " file(s) found");
+//java.lang.System.out.println("** FileScan Connector: " + filePath);
+//java.lang.System.out.println("** FileScan Connector: " + lastModList);
+
+
+
+//===  Function definitions ===
+
+function scanDirectory(fName) {
+  var fObj = new java.io.File(fName);
+  if (fObj == null)
+    throw "Scan directory/file (" + fName + ") not found"
+  else
+  if (fObj.isFile() && contents[i].getName().endsWith(extension)) {
+    fileIndex++;
+    filePath[fileIndex] = fObj.getCanonicalPath()
+    fileName[fileIndex] = fObj.getName();
+    lastModList[fileIndex] = fObj.lastModified();
+  } else
+  if (fObj.isDirectory()) {
+    var contents = fObj.listFiles();
+    if (contents != null)
+      for (var i = 0; i < contents.length; i++)
+        getScanList(contents[i]);
+  }
+}
+
+function listFiles(fName) {
+  var fObj = new java.io.File(fName);
+  var contents = fObj.listFiles();
+  if (contents != null){
+    for (var i = 0; i < contents.length; i++){
+      if (contents[i].isFile() && contents[i].getName().endsWith(extension)) {
+        filePath[fileIndex] = contents[i].getCanonicalPath()
+        fileName[fileIndex] = contents[i].getName();
+        lastModList[fileIndex] = contents[i].lastModified();
+        fileIndex++;
+      }
+//      if (contents[i].isDirectory()) {
+//        main.logmsg("** FileScan Connector: Directory" + fObj.getName());
+//        listFiles(contents[i]);
+//      }
+    }
+  }
+}
+
+function selectEntries()
+{
+  fileIndex = 0;
+}
+
+function getNextEntry ()
+{
+
+  if (fileIndex >= filePath.length) {
+    result.setStatus (0);
+    result.setMessage ("End of input");
+    return;
+  }
+
+  entry.setAttribute("filePath", filePath[fileIndex]);
+  entry.setAttribute("fileName", fileName[fileIndex]);
+  entry.setAttribute("fileLastModified", lastModList[fileIndex]);
+  entry.setAttribute("fileIndex", fileIndex);
+
+  fileIndex++;
+}
+]]></parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+            <AttributeMapItem>
+                <Name>fileIndex</Name>
+                <Type>simple</Type>
+                <Simple>fileIndex</Simple>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>fileLastModified</Name>
+                <Type>simple</Type>
+                <Simple>fileLastModified</Simple>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>fileName</Name>
+                <Type>simple</Type>
+                <Simple>fileName</Simple>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>filePath</Name>
+                <Type>simple</Type>
+                <Simple>filePath</Simple>
+            </AttributeMapItem>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <Driver>CloudScape</Driver>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+            <SchemaItem>
+                <Name>fileIndex</Name>
+                <Syntax>java.lang.Double</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>fileLastModified</Name>
+                <Syntax>java.lang.Double</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>fileName</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>filePath</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="initreconnect">false</parameter>
+            <parameter name="numberOfRetries">1</parameter>
+            <parameter name="retryDelay">10</parameter>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+        </PoolDefinition>
+        <PoolInstance>
+            <Enabled>false</Enabled>
+            <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+        </PoolInstance>
+        <InitializeOption>0</InitializeOption>
+    </Connector>
+</MetamergeConfig>

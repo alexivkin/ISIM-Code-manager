@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="1" UUID="c7f2158f-30c5-4f58-afd6-2bc2708b8267" created="Wed Oct 20 08:43:15 PDT 2010" createdBy="root" main="ITIM_Lookup" modified="Wed Oct 20 08:43:15 PDT 2010" modifiedBy="root" project="PowerTools" version="7.0">
+    <Connector name="ITIM_Lookup">
+        <InheritFrom>/Connectors/ITIM_Iterator</InheritFrom>
+        <ConnectorMode>Lookup</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="ldapSearchBase">@SUBSTITUTE{property.ITIM:LDAP.SearchBase}</parameter>
+        </Configuration>
+        <ComputeChanges>true</ComputeChanges>
+        <DeltaBehavior>0</DeltaBehavior>
+        <DeltaStrict>true</DeltaStrict>
+        <Parser>
+            <InheritFrom>[parent]</InheritFrom>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[no inheritance]</InheritFrom>
+            <AttributeMapItem>
+                <Name>foundDN</Name>
+                <Type>simple</Type>
+                <Enabled>true</Enabled>
+                <Add>true</Add>
+                <Modify>true</Modify>
+                <Simple>$dn</Simple>
+            </AttributeMapItem>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <Driver>CloudScape</Driver>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+            <SchemaItem>
+                <Name>$dn</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>cn</Name>
+                <Syntax>java.lang.String</Syntax>
+                <NativeSyntax>MAY/String/This is the X.500 commonName attribute, which contains a name of an object.  If the object corresponds to a person, it is typically the persons full name.</NativeSyntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>departmentnumber</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>description</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>employeenumber</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>employeestatus</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erCustomConstraint</Name>
+                <NativeSyntax>MAY/Directory String</NativeSyntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erDefaultValue</Name>
+                <NativeSyntax>MAY/Directory String</NativeSyntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erIsReadOnly</Name>
+                <NativeSyntax>MAY/Boolean</NativeSyntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erOid</Name>
+                <NativeSyntax>MUST/Directory String</NativeSyntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erType</Name>
+                <NativeSyntax>MAY/Directory String</NativeSyntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>eraliases</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>ercreatedate</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erglobalid</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erlastmodifiedtime</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erparent</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erpersonstatus</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>ferccode</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>givenname</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>l</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>mail</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>mailstop</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>manager</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>middlename</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>objectClass</Name>
+                <NativeSyntax>MUST/OID/The values of the objectClass attribute describe the kind of object which an entry represents.</NativeSyntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>objectclass</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>positionnumber</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>reportstoemployeeid</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>reportstopositionnbr</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>sn</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>telephonenumber</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>title</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>uid</Name>
+                <Syntax>java.lang.String</Syntax>
+                <Presence>null</Presence>
+            </SchemaItem>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+            <LinkCriteriaItem>
+                <Key>10fa67f62a0</Key>
+                <Attribute>eraliases</Attribute>
+                <Operator>equals</Operator>
+                <Value>$lookupID</Value>
+            </LinkCriteriaItem>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+            <Hook name="before_lookup">
+                <Name>before_lookup</Name>
+                <Script><![CDATA[var manager = work.getString("reportstoemployeeid");
+task.logmsg(thisConnector.getName()+": Looking up " + manager);
+if (manager == null || manager == '')
+    system.ignoreEntry();
+]]></Script>
+                <Enabled>false</Enabled>
+                <DebugBreak>false</DebugBreak>
+            </Hook>
+            <Hook name="default_ok">
+                <Name>default_ok</Name>
+                <Script><![CDATA[//task.logmsg("ITIM_Manager_Lookup: Default Success");
+//system.dumpEntry(work);]]></Script>
+                <Enabled>true</Enabled>
+                <DebugBreak>false</DebugBreak>
+            </Hook>
+            <Hook name="lookup_multiple">
+                <Name>lookup_multiple</Name>
+                <Script><![CDATA[task.logmsg(thisConnector.getName()+": Mulitple entries found for  " + work.getString("lookupID"));
+system.skipEntry();]]></Script>
+                <Enabled>true</Enabled>
+                <DebugBreak>false</DebugBreak>
+            </Hook>
+            <Hook name="lookup_nomatch">
+                <Name>lookup_nomatch</Name>
+                <Script><![CDATA[task.logmsg(thisConnector.getName()+": No Match for " + work.getString("lookupID"));
+system.skipEntry();]]></Script>
+                <Enabled>true</Enabled>
+                <DebugBreak>false</DebugBreak>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+        </PoolDefinition>
+        <PoolInstance/>
+        <InitializeOption>0</InitializeOption>
+    </Connector>
+</MetamergeConfig>

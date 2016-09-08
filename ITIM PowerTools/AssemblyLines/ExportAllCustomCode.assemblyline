@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="5" UUID="c3c3f5dc-dc93-4153-9de0-5ad3933b69cd" created="Wed Oct 20 08:43:13 PDT 2010" createdBy="root" main="ExportAllCustomCode" modified="Thu Jul 28 12:04:02 PDT 2011" modifiedBy="e91846" project="PowerTools" version="7.0">
+    
+<AssemblyLine name="ExportAllCustomCode">
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="debug">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks>
+            <Hook name="prolog0">
+                <Name>prolog0</Name>
+                <Script><![CDATA[// create export directories, as defined in ITIM_PowerTools property file
+
+var propsCfg = system.getTDIProperties();
+/*
+var storesList = propsCfg.getPropertyStoreNames();
+var storeNamesIter = storesList.iterator();
+while (storeNamesIter.hasNext()) {
+	var storeName = storeNamesIter.next();
+	task.logmsg("INFO", "Before Init: next store = " + storeName);
+}*/
+
+var storeName = "ITIM_PowerTools";
+var propsKeys = propsCfg.getPropertyStoreKeys(storeName);
+if (propsKeys != null) {
+	while (propsKeys.hasNext()) {
+		var key = propsKeys.next();
+		var val = propsCfg.getProperty(key);
+		if (key.indexOf("ExportFolder") != -1) {
+			task.logmsg("INFO", "Before Init: creating path = " + val);
+			if (new java.io.File(val).mkdirs()) {
+				task.logmsg("INFO", "Before Init: created path = " + val);
+			}
+			else {
+				task.logmsg("INFO", "Before Init: already exists, path = " + val);
+			}
+		}
+	}
+}
+else {
+	task.logmsg("INFO", "Before Init: no keys in store = " + storeName);
+	
+}]]></Script>
+                <Enabled>true</Enabled>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="ExportLifecycle" state="Simulated"/>
+                <Component name="ExportOperationalWorkflows" state="Simulated"/>
+                <Component name="ExportProvisioningPolicies" state="Simulated"/>
+                <Component name="ExportForms" state="Simulated"/>
+                <Component name="ExportMailTemplates" state="Simulated"/>
+                <Component name="ExportACLs" state="Simulated"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer"/>
+        <ContainerDF name="DataFlowContainer">
+            <Function name="ExportLifecycle">
+                <InheritFrom>system:/Functions/ibmdi.AssemblyLineFC</InheritFrom>
+                <ConnectorState>Enabled</ConnectorState>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>erCategory</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erProcessName</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erXML</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erglobalid</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erlastmodifiedtime</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erversionid</Name>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>contents</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erCategory</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erProcessName</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erXML</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erglobalid</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erlastmodifiedtime</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erversionid</Name>
+                    </SchemaItem>
+                </Schema>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <Configuration>
+                    <UserComment/>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="assemblyLine">ExportLifecycleWorkflows</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="userComment"/>
+                </Configuration>
+                <SandboxConfig/>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+            </Function>
+            <Function name="ExportOperationalWorkflows">
+                <InheritFrom>system:/Functions/ibmdi.AssemblyLineFC</InheritFrom>
+                <ConnectorState>Enabled</ConnectorState>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>erCategory</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erXML</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ercustomclass</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erobjectprofilename</Name>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>erCategory</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erXML</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ercustomclass</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erobjectprofilename</Name>
+                    </SchemaItem>
+                </Schema>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <Configuration>
+                    <UserComment/>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="assemblyLine">ExportOperationalWorkflows</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="userComment"/>
+                </Configuration>
+                <SandboxConfig/>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+            </Function>
+            <Function name="ExportProvisioningPolicies">
+                <InheritFrom>system:/Functions/ibmdi.AssemblyLineFC</InheritFrom>
+                <ConnectorState>Enabled</ConnectorState>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>description</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erenabled</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erentitlements</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erglobalid</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erlabel</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erpolicyitemname</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erpolicymembership</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erpolicytarget</Name>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>description</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erenabled</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erentitlements</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erglobalid</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erlabel</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erpolicyitemname</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erpolicymembership</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erpolicytarget</Name>
+                    </SchemaItem>
+                </Schema>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <Configuration>
+                    <UserComment/>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="assemblyLine">ExportProvisioningPolicies</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="userComment"/>
+                </Configuration>
+                <SandboxConfig/>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+            </Function>
+            <Function name="ExportForms">
+                <InheritFrom>system:/Functions/ibmdi.AssemblyLineFC</InheritFrom>
+                <ConnectorState>Enabled</ConnectorState>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>erformname</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erxml</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectclass</Name>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>cn</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erEnabled</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erIsReadOnly</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erTemplateName</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erXHTML</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erformname</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ersubject</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ertext</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erxml</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectclass</Name>
+                    </SchemaItem>
+                </Schema>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <Configuration>
+                    <UserComment/>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="assemblyLine">ExportFormTemplates</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="userComment"/>
+                </Configuration>
+                <SandboxConfig/>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+            </Function>
+            <Function name="ExportMailTemplates">
+                <InheritFrom>system:/Functions/ibmdi.AssemblyLineFC</InheritFrom>
+                <ConnectorState>Enabled</ConnectorState>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>cn</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erEnabled</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erIsReadOnly</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erTemplateName</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erXHTML</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ersubject</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ertext</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectclass</Name>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>cn</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erEnabled</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erIsReadOnly</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erTemplateName</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erXHTML</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ersubject</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ertext</Name>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectclass</Name>
+                    </SchemaItem>
+                </Schema>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <Configuration>
+                    <UserComment/>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="assemblyLine">ExportMailTemplates</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="userComment"/>
+                </Configuration>
+                <SandboxConfig/>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+            </Function>
+            <Function name="ExportACLs">
+                <InheritFrom>system:/Functions/ibmdi.AssemblyLineFC</InheritFrom>
+                <ConnectorState>Enabled</ConnectorState>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <Configuration>
+                    <UserComment/>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="assemblyLine">ExportACLs</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="userComment"/>
+                </Configuration>
+                <SandboxConfig/>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+            </Function>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

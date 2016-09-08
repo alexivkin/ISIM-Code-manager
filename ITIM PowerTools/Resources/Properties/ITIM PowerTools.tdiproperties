@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="5" UUID="97ae287e-98eb-496b-a967-10206473af67" created="Fri May 06 15:25:19 UTC 2016" createdBy="root" main="ITIM PowerTools" modified="Thu Sep 08 00:28:29 UTC 2016" modifiedBy="developer" project="ITDI PowerTools" version="7.1.1">
+    <Container name="ITIM PowerTools">
+        <ModTime>1473294465347</ModTime>
+        <Container name="Data">
+            <ModTime>1473294465347</ModTime>
+            <ParameterList name="ACLExportFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="Protect">false</parameter>
+                <parameter name="serverName">ACLExportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\ACLs\Export</parameter>
+                <parameter name="value">F:\Data\ITIM\ACLs\Export</parameter>
+            </ParameterList>
+            <ParameterList name="ACLImportFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="Protect">false</parameter>
+                <parameter name="serverName">ACLImportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\ACLs\Import</parameter>
+                <parameter name="value">F:\Data\ITIM\ACLs\Import</parameter>
+            </ParameterList>
+            <ParameterList name="ApplicationDataImportFolder">
+                <parameter name="Deleted">true</parameter>
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">ApplicationDataImportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\ApplicationData\Import</parameter>
+                <parameter name="value">ApplicationDataImport</parameter>
+            </ParameterList>
+            <ParameterList name="FormTemplatesExportFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">FormTemplatesExportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\FormTemplates\Export</parameter>
+                <parameter name="value">F:\Data\ITIM\FormTemplates\Export</parameter>
+            </ParameterList>
+            <ParameterList name="FormTemplatesImportFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">FormTemplatesImportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\FormTemplates\Import</parameter>
+                <parameter name="value">F:\Data\ITIM\FormTemplates\Import</parameter>
+            </ParameterList>
+            <ParameterList name="GlobalWorkflowExportFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">GlobalWorkflowExportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\GlobalWorkflows\Export</parameter>
+                <parameter name="value">F:\Data\ITIM\GlobalWorkflows\Export</parameter>
+            </ParameterList>
+            <ParameterList name="GlobalWorkflowImportFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">GlobalWorkflowImportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\GlobalWorkflows\Import</parameter>
+                <parameter name="value">F:\Data\ITIM\GlobalWorkflows\Import</parameter>
+            </ParameterList>
+            <ParameterList name="MailTemplatesExportFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">MailTemplatesExportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\MailTemplates\Export</parameter>
+                <parameter name="value">F:\Data\ITIM\MailTemplates\Export</parameter>
+            </ParameterList>
+            <ParameterList name="MailTemplatesImportFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">MailTemplatesImportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\MailTemplates\Import</parameter>
+                <parameter name="value">F:\Data\ITIM\MailTemplates\Import</parameter>
+            </ParameterList>
+            <ParameterList name="PPExportFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">PPExportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\ProvisioningPolicies\Export</parameter>
+                <parameter name="value">F:\Data\ITIM\ProvisioningPolicies\Export</parameter>
+            </ParameterList>
+            <ParameterList name="PPImportFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">PPImportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\ProvisioningPolicies\Import</parameter>
+                <parameter name="value">F:\Data\ITIM\ProvisioningPolicies\Import</parameter>
+            </ParameterList>
+            <ParameterList name="WorkflowExportFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">WorkflowExportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\Workflows\Export</parameter>
+                <parameter name="value">F:\Data\ITIM\Workflows\Export</parameter>
+            </ParameterList>
+            <ParameterList name="WorkflowExportRawFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">WorkflowExportRawFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\Workflows\Export\Raw</parameter>
+                <parameter name="value">F:\Data\ITIM\Workflows\Export\Raw</parameter>
+            </ParameterList>
+            <ParameterList name="WorkflowImportFolder">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">WorkflowImportFolder</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">F:\Data\ITIM\Workflows\Import</parameter>
+                <parameter name="value">F:\Data\ITIM\Workflows\Import</parameter>
+            </ParameterList>
+        </Container>
+        <Properties name="Config">
+            <ModTime>1473294384565</ModTime>
+            <Stores>
+                <PropertyStore name="ITDI PowerTools">
+                    <ModTime>1473294384565</ModTime>
+                    <Parser>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <RawConnector>
+                        <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                        <ModTime>1473294384565</ModTime>
+                        <parameter name="collection">/home/developer/workspace/ITIM PowerTools/Runtime-ITIM PowerTools/ITIM_PowerTools_Config.properties</parameter>
+                        <parameter name="collectionType">ITDI PowerTools</parameter>
+                    </RawConnector>
+                    <Key>key</Key>
+                    <Value>value</Value>
+                    <ReadOnly>false</ReadOnly>
+                    <InitialLoad>true</InitialLoad>
+                    <CacheTimeout>0</CacheTimeout>
+                </PropertyStore>
+            </Stores>
+        </Properties>
+    </Container>
+</MetamergeConfig>

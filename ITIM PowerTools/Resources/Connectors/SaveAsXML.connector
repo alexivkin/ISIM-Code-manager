@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="1" UUID="59f465a7-0884-4dde-9cf9-14f53627360b" created="Wed Oct 20 08:43:17 PDT 2010" createdBy="root" main="SaveAsXML" modified="Wed Oct 20 08:43:17 PDT 2010" modifiedBy="root" project="PowerTools" version="7.0">
+    <Connector name="SaveAsXML">
+        <InheritFrom>system:/Connectors/ibmdi.FileSystem</InheritFrom>
+        <ConnectorMode>AddOnly</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="debug">false</parameter>
+        </Configuration>
+        <Parser>
+            <InheritFrom>system:/Parsers/ibmdi.XML</InheritFrom>
+            <parameter name="debug">false</parameter>
+            <parameter name="isnamespaceaware">false</parameter>
+            <parameter name="isvalidating">false</parameter>
+            <parameter name="omitxmldeclaration">true</parameter>
+            <parameter name="xmlEntryTag">entry</parameter>
+            <parameter name="xmlRootTag">MailTemplate</parameter>
+            <parameter name="xmlValueTag">value</parameter>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+            <AttributeMapItem>
+                <Name>cn</Name>
+                <Type>simple</Type>
+                <Simple>cn</Simple>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>erEnabled</Name>
+                <Type>simple</Type>
+                <Simple>erEnabled</Simple>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>erIsReadOnly</Name>
+                <Type>simple</Type>
+                <Simple>erIsReadOnly</Simple>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>erTemplateName</Name>
+                <Type>simple</Type>
+                <Simple>erTemplateName</Simple>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>erXHTML</Name>
+                <Type>simple</Type>
+                <Simple>erXHTML</Simple>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>ersubject</Name>
+                <Type>simple</Type>
+                <Simple>ersubject</Simple>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>ertext</Name>
+                <Type>simple</Type>
+                <Simple>ertext</Simple>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>objectclass</Name>
+                <Type>simple</Type>
+                <Simple>objectclass</Simple>
+            </AttributeMapItem>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <Driver>CloudScape</Driver>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>[parent]</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>[parent]</InheritFrom>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>[parent]</InheritFrom>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="initreconnect">false</parameter>
+            <parameter name="numberOfRetries">1</parameter>
+            <parameter name="retryDelay">10</parameter>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>[parent]</InheritFrom>
+        </PoolDefinition>
+        <PoolInstance>
+            <Enabled>false</Enabled>
+            <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+        </PoolInstance>
+        <InitializeOption>2</InitializeOption>
+    </Connector>
+</MetamergeConfig>

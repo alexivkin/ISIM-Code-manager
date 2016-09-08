@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="12" UUID="66bcdbbf-5028-476c-a5ad-ea5d3d2f9990" created="Wed Oct 20 08:43:21 PDT 2010" createdBy="root" main="ITIM" modified="Thu Sep 08 00:26:03 UTC 2016" modifiedBy="developer" project="PowerTools" version="7.1.1">
+    <Container name="ITIM">
+        <ModTime>1473294360431</ModTime>
+        <Container name="Data">
+            <ModTime>1473294360431</ModTime>
+            <ParameterList name="LDAP.Password">
+                <parameter name="Property">true</parameter>
+                <parameter name="Protect">true</parameter>
+                <parameter name="serverName">LDAP.Password</parameter>
+                <parameter name="serverProtect">true</parameter>
+                <parameter name="serverValue">{encr}gPmroHvTl57/aY44UxXgGTUcufDTCXa9L867OKkx1cGx9viczg5zasSpSyZGbGaag6NsXwd70xnn7Cmt++fe/EW1jYH3JS0TlV4C0JhslliQcZU/pS4UUi4f6QnSwCGUBEROVQpZQSYXaSfATqpg+TPD7E1aBXfr1LiLOnm7Ulg=</parameter>
+                <parameter name="value">{encr}l5JV2V1VCPFR158lrd3Z3pRvAVry7N8WvrLAP20UcSUM5vfFYIIm3W/pHjhlbRGSooY/OkAy58B2g+2nCQMQJf/XVlW1DnS/boBf93OLC+sWmuW5k0vqLO/indqSgkhAOlbVhutCPSlu3cwuZyTkPCa+bQuFdqKo8EIDVR+gYLs=</parameter>
+            </ParameterList>
+            <ParameterList name="LDAP.SearchBase">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">LDAP.SearchBase</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">dc=itim,dc=dom</parameter>
+                <parameter name="value">dc=itim,dc=dom</parameter>
+            </ParameterList>
+            <ParameterList name="LDAP.SearchBaseAccounts">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">LDAP.SearchBaseAccounts</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">ou=accounts,erglobalid=00000000000000000000,ou=corp,dc=itim,dc=dom</parameter>
+                <parameter name="value">ou=accounts,erglobalid=00000000000000000000,ou=corp,dc=itim,dc=dom</parameter>
+            </ParameterList>
+            <ParameterList name="LDAP.SearchBasePeople">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">LDAP.SearchBasePeople</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">ou=people,erglobalid=00000000000000000000,ou=corp,dc=itim,dc=dom</parameter>
+                <parameter name="value">ou=people,erglobalid=00000000000000000000,ou=corp,dc=itim,dc=dom</parameter>
+            </ParameterList>
+            <ParameterList name="LDAP.SearchBaseRoles">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">LDAP.SearchBaseRoles</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">ou=roles,erglobalid=00000000000000000000,ou=corp,dc=itim,dc=dom</parameter>
+                <parameter name="value">ou=roles,erglobalid=00000000000000000000,ou=corp,dc=itim,dc=dom</parameter>
+            </ParameterList>
+            <ParameterList name="LDAP.SearchBaseServices">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">LDAP.SearchBaseServices</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">ou=services,erglobalid=00000000000000000000,ou=corp,dc=itim,dc=dom</parameter>
+                <parameter name="value">ou=services,erglobalid=00000000000000000000,ou=corp,dc=itim,dc=dom</parameter>
+            </ParameterList>
+            <ParameterList name="LDAP.Url">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">LDAP.Url</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">ldaps://ldapserver.corp.dom:636</parameter>
+                <parameter name="value">ldaps://ldapserver.corp.dom:636</parameter>
+            </ParameterList>
+            <ParameterList name="LDAP.UseSSL">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">LDAP.UseSSL</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">true</parameter>
+                <parameter name="value">true</parameter>
+            </ParameterList>
+            <ParameterList name="LDAP.Username">
+                <parameter name="Property">true</parameter>
+                <parameter name="serverName">LDAP.Username</parameter>
+                <parameter name="serverProtect">false</parameter>
+                <parameter name="serverValue">cn=ldapuser</parameter>
+                <parameter name="value">cn=ldapuser</parameter>
+            </ParameterList>
+        </Container>
+        <Properties name="Config">
+            <ModTime>1473294353629</ModTime>
+            <Stores>
+                <PropertyStore name="ITIM">
+                    <ModTime>1473294353629</ModTime>
+                    <Parser>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <RawConnector>
+                        <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                        <ModTime>1473294353629</ModTime>
+                        <parameter name="autorewrite">false</parameter>
+                        <parameter name="collection">/home/developer/workspace/ITIM PowerTools/Runtime-ITIM PowerTools/ITIM_Config.properties</parameter>
+                        <parameter name="collectionType">User-Defined</parameter>
+                        <parameter name="debug">false</parameter>
+                        <parameter name="encryption">false</parameter>
+                        <parameter name="password">BlowFish32</parameter>
+                    </RawConnector>
+                    <Key>key</Key>
+                    <Value>value</Value>
+                    <ReadOnly>false</ReadOnly>
+                    <InitialLoad>true</InitialLoad>
+                    <CacheTimeout>0</CacheTimeout>
+                </PropertyStore>
+            </Stores>
+        </Properties>
+    </Container>
+</MetamergeConfig>

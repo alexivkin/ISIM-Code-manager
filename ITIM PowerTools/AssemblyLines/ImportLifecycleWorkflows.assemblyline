@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="2" UUID="3a8cab55-9433-42e6-83ab-dfac64063c3d" created="Wed Oct 20 08:43:11 PDT 2010" createdBy="root" main="ImportLifecycleWorkflows" modified="Thu Sep 08 00:33:08 UTC 2016" modifiedBy="developer" project="PowerTools" version="7.1.1">
+    <AssemblyLine name="ImportLifecycleWorkflows">
+        <ModTime>1473294734316</ModTime>
+        <Settings>
+            <parameter name="ALPoolSettingsDialog">showALPoolSettings</parameter>
+            <parameter name="automapattributes">false</parameter>
+            <parameter name="createTombstones">false</parameter>
+            <parameter name="debug">false</parameter>
+            <parameter name="includeGlobalPrologs">true</parameter>
+            <parameter name="nullBehaviorDialog">showNullBehavior</parameter>
+        </Settings>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="LoadAsBlob" state="Enabled"/>
+                <Component name="ITIM_stuffin" state="Simulated"/>
+                <Component name="FolderScan" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1473294734316</ModTime>
+            <Connector name="FolderScan">
+                <InheritFrom>/Connectors/FolderScan</InheritFrom>
+                <ModTime>1473294734316</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="includePrologs">getExternalProperty</parameter>
+                    <parameter name="script"><![CDATA[// FileScan Connector
+var vrs = "v.1.0";
+var baseDir = getExternalProperty("GlobalWorkflowImportFolder");
+var extension = ".xml";
+
+// Here comes the initialization code
+
+main.logmsg("DEBUG","** FileScan Connector " + vrs + " initializing");
+
+var filePath = [];
+var fileName = [];
+var lastModList = [];
+var fileIndex = 0;
+
+if (baseDir == null)
+  baseDir = "./"; // Default to solution-directory
+
+main.logmsg("** FileScan Connector: Scanning specified directory :\"" + baseDir + "\"");
+
+//scanDirectory(baseDir); //works the current folder and the subfolders
+listFiles(baseDir); // does not go into subfolders
+
+main.logmsg("** FileScan Connector: " + filePath.length + " file(s) found");
+//java.lang.System.out.println("** FileScan Connector: " + new java.util.Date() + " ** " + filePath.length + " file(s) found");
+//java.lang.System.out.println("** FileScan Connector: " + filePath);
+//java.lang.System.out.println("** FileScan Connector: " + lastModList);
+
+
+
+//===  Function definitions ===
+
+function scanDirectory(fName) {
+  var fObj = new java.io.File(fName);
+  if (fObj == null)
+    throw "Scan directory/file (" + fName + ") not found"
+  else
+  if (fObj.isFile() && contents[i].getName().endsWith(extension)) {
+    fileIndex++;
+    filePath[fileIndex] = fObj.getCanonicalPath()
+    fileName[fileIndex] = fObj.getName();
+    lastModList[fileIndex] = fObj.lastModified();
+  } else
+  if (fObj.isDirectory()) {
+    var contents = fObj.listFiles();
+    if (contents != null)
+      for (var i = 0; i < contents.length; i++)
+        getScanList(contents[i]);
+  }
+}
+
+function listFiles(fName) {
+  var fObj = new java.io.File(fName);
+  var contents = fObj.listFiles();
+  if (contents != null){
+    for (var i = 0; i < contents.length; i++){
+      if (contents[i].isFile() && contents[i].getName().endsWith(extension)) {
+        filePath[fileIndex] = contents[i].getCanonicalPath()
+        fileName[fileIndex] = contents[i].getName();
+        lastModList[fileIndex] = contents[i].lastModified();
+        fileIndex++;
+      }
+//      if (contents[i].isDirectory()) {
+//        main.logmsg("** FileScan Connector: Directory" + fObj.getName());
+//        listFiles(contents[i]);
+//      }
+    }
+  }
+}
+
+function selectEntries()
+{
+  fileIndex = 0;
+}
+
+function getNextEntry ()
+{
+
+  if (fileIndex >= filePath.length) {
+    result.setStatus (0);
+    result.setMessage ("End of input");
+    return;
+  }
+
+  entry.setAttribute("filePath", filePath[fileIndex]);
+  entry.setAttribute("fileName", fileName[fileIndex]);
+  entry.setAttribute("fileLastModified", lastModList[fileIndex]);
+  entry.setAttribute("fileIndex", fileIndex);
+
+  fileIndex++;
+}
+]]></parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <ModTime>1473294734316</ModTime>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>fileIndex</Name>
+                        <Syntax>java.lang.Double</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>fileLastModified</Name>
+                        <Syntax>java.lang.Double</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>fileName</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>filePath</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1473294733124</ModTime>
+            <Connector name="LoadAsBlob">
+                <InheritFrom>/Connectors/SaveAsBlob</InheritFrom>
+                <ModTime>1473294733124</ModTime>
+                <ConnectorMode>Iterator</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="filePath">@SUBSTITUTE{work.filePath}</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>contents</Name>
+                        <Type>simple</Type>
+                        <Simple>contents</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>operationID</Name>
+                        <Type>advanced</Type>
+                        <Script><![CDATA[var fileName = work.getString("fileName");
+ret.value = fileName.substring(0,fileName.lastIndexOf("."));]]></Script>
+                        <Simple>operationID</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <DeltaSettings>
+                    <ModTime>1473294733124</ModTime>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                    <RowLocking>SERIALIZABLE</RowLocking>
+                    <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>contents</Name>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>contents</Name>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>3</InitializeOption>
+            </Connector>
+            <Connector name="ITIM_stuffin">
+                <InheritFrom>/Connectors/ITIM_objectProfile</InheritFrom>
+                <ConnectorMode>Update</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <parameter name="ldapPassword">@SUBSTITUTE{property.ITIM:LDAP.Password}</parameter>
+                    <parameter name="ldapSearchBase">@SUBSTITUTEou=workflow,erglobalid=00000000000000000000,{property.ITIM:LDAP.SearchBase}</parameter>
+                    <parameter name="ldapSearchFilter">(objectclass=erWorkflowDefinition)</parameter>
+                    <parameter name="ldapUrl">@SUBSTITUTE{property.ITIM:LDAP.Url}</parameter>
+                    <parameter name="ldapUsername">@SUBSTITUTE{property.ITIM:LDAP.Username}</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <AttributeMapItem>
+                        <Name>erxml</Name>
+                        <Type>simple</Type>
+                        <Simple>contents</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <DeltaSettings>
+                    <WhenToCommit>After every database operation</WhenToCommit>
+                    <Driver>CloudScape</Driver>
+                </DeltaSettings>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>$dn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erattrmap</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ercategory</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ercustomclass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erlifecyclerule</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erobjectprofilename</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>errdnattr</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>ersearchattr</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erxml</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectclass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <SchemaItem>
+                        <Name>$dn</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>description</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erenabled</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erentitlements</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erglobalid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erlabel</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erlastmodifiedtime</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erparent</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erpolicyitemname</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erpolicymembership</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erpolicytarget</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erpriority</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erprocessname</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erversionid</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>erxml</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>objectclass</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <LinkCriteriaItem>
+                        <Key>1192a770fb8</Key>
+                        <Attribute>erprocessname</Attribute>
+                        <Operator>equals</Operator>
+                        <Value>$operationID</Value>
+                    </LinkCriteriaItem>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <Hook name="modify_apply">
+                        <Name>modify_apply</Name>
+                        <Script><![CDATA[task.logmsg("Modifying "+work.getString("fileName"));
+//task.dumpEntry(conn);
+//task.dumpEntry(current);]]></Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="override_add">
+                        <Name>override_add</Name>
+                        <Script>task.logmsg("Not gonna add "+work.getString("fileName"));</Script>
+                        <Enabled>true</Enabled>
+                    </Hook>
+                    <Hook name="override_modify">
+                        <Name>override_modify</Name>
+                        <Script>task.logmsg(work.getString("contents"));</Script>
+                        <Enabled>false</Enabled>
+                    </Hook>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance>
+                    <Enabled>false</Enabled>
+                    <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+                </PoolInstance>
+                <InitializeOption>0</InitializeOption>
+            </Connector>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>

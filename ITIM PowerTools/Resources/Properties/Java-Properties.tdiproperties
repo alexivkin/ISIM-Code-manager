@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="2" UUID="f38cd7e1-714a-45e0-bc89-2d748b7d6499" created="Wed Oct 20 08:42:33 PDT 2010" createdBy="root" main=".Java-Properties.tdiproperties" modified="Thu Sep 08 00:27:59 UTC 2016" modifiedBy="developer" project="PowerTools" version="7.1.1">
+    <Container name=".Java-Properties.tdiproperties">
+        <Container name="Data"/>
+        <Properties name="Config">
+            <Stores>
+                <PropertyStore name="PowerTools">
+                    <Parser>
+                        <Schema name="Input">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                        <Schema name="Output">
+                            <InheritFrom>[parent]</InheritFrom>
+                        </Schema>
+                    </Parser>
+                    <RawConnector>
+                        <InheritFrom>system:/Connectors/ibmdi.Properties</InheritFrom>
+                        <parameter name="collection">@SUBSTITUTE{config.$directory}/PowerTools.properties</parameter>
+                        <parameter name="collectionType">PowerTools</parameter>
+                    </RawConnector>
+                    <Key>key</Key>
+                    <Value>value</Value>
+                    <ReadOnly>false</ReadOnly>
+                    <InitialLoad>true</InitialLoad>
+                    <CacheTimeout>0</CacheTimeout>
+                </PropertyStore>
+            </Stores>
+        </Properties>
+    </Container>
+</MetamergeConfig>

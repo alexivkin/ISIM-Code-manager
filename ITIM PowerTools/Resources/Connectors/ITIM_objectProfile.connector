@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetamergeConfig Cycle="1" UUID="517ba206-cfc2-4b20-83da-f69611dfb01d" created="Wed Oct 20 08:43:16 PDT 2010" createdBy="root" main="ITIM_objectProfile" modified="Wed Oct 20 08:43:16 PDT 2010" modifiedBy="root" project="PowerTools" version="7.0">
+    <Connector name="ITIM_objectProfile">
+        <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+        <ConnectorMode>Iterator</ConnectorMode>
+        <ConnectorState>Enabled</ConnectorState>
+        <Configuration>
+            <UserComment/>
+            <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+            <parameter name="automapADPassword">false</parameter>
+            <parameter name="debug">false</parameter>
+            <parameter name="ldapAddAttr">false</parameter>
+            <parameter name="ldapAuthenticationMethod">Simple</parameter>
+            <parameter name="ldapPageSize">0</parameter>
+            <parameter name="ldapPassword">@SUBSTITUTE{property.ITIM:LDAP.Password}</parameter>
+            <parameter name="ldapReferrals">follow</parameter>
+            <parameter name="ldapSearchBase">@SUBSTITUTEou=objectProfile,ou=itim,{property.ITIM:LDAP.SearchBase}</parameter>
+            <parameter name="ldapSearchFilter">(objectclass=erObjectProfile)</parameter>
+            <parameter name="ldapSearchScope">subtree</parameter>
+            <parameter name="ldapSizeLimit">0</parameter>
+            <parameter name="ldapTimeLimit">0</parameter>
+            <parameter name="ldapUrl">@SUBSTITUTE{property.ITIM:LDAP.Url}</parameter>
+            <parameter name="ldapUseSSL">false</parameter>
+            <parameter name="ldapUsername">@SUBSTITUTE{property.ITIM:LDAP.Username}</parameter>
+            <parameter name="ldapVLVPageSize">0</parameter>
+            <parameter name="simulateRename">true</parameter>
+            <parameter name="userComment"/>
+        </Configuration>
+        <ComputeChanges>true</ComputeChanges>
+        <DeltaBehavior>0</DeltaBehavior>
+        <DeltaStrict>true</DeltaStrict>
+        <Parser>
+            <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+            <Schema name="Input">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+            <Schema name="Output">
+                <InheritFrom>[parent]</InheritFrom>
+            </Schema>
+        </Parser>
+        <AttributeMap name="Input">
+            <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+            <AttributeMapItem>
+                <Name>erCategory</Name>
+                <Type>simple</Type>
+                <Simple>erCategory</Simple>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>erXML</Name>
+                <Type>simple</Type>
+                <Simple>erXML</Simple>
+                <NullBehavior>Delete</NullBehavior>
+                <NullDefinition>EmptyString</NullDefinition>
+            </AttributeMapItem>
+            <AttributeMapItem>
+                <Name>erobjectprofilename</Name>
+                <Type>simple</Type>
+                <Simple>erobjectprofilename</Simple>
+            </AttributeMapItem>
+            <NullBehavior>Empty String</NullBehavior>
+        </AttributeMap>
+        <AttributeMap name="Output">
+            <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+        </AttributeMap>
+        <DeltaSettings>
+            <WhenToCommit>After every database operation</WhenToCommit>
+            <Driver>CloudScape</Driver>
+        </DeltaSettings>
+        <Schema name="Input">
+            <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+            <SchemaItem>
+                <Name>$dn</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erattrmap</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>ercategory</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>ercustomclass</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erlifecyclerule</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erobjectprofilename</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>errdnattr</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>ersearchattr</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>erxml</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+            <SchemaItem>
+                <Name>objectclass</Name>
+                <Syntax>java.lang.String</Syntax>
+            </SchemaItem>
+        </Schema>
+        <Schema name="Output">
+            <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+        </Schema>
+        <LinkCriteria>
+            <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+            <AdvancedLinkMode>false</AdvancedLinkMode>
+            <Script><![CDATA[ret.filter = "";
+]]></Script>
+        </LinkCriteria>
+        <Hooks>
+            <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+            <Hook name="default_ok">
+                <Name>default_ok</Name>
+                <Script><![CDATA[//task.logmsg(thisConnector.getName()+": Default Success");
+//system.dumpEntry(work);]]></Script>
+                <Enabled>false</Enabled>
+                <DebugBreak>false</DebugBreak>
+            </Hook>
+            <Hook name="lookup_multiple">
+                <Name>lookup_multiple</Name>
+                <Script>task.logmsg("error",thisConnector.getName()+": Mulitple entries found for " + work.getString("lookupemployeeid"));</Script>
+                <Enabled>true</Enabled>
+                <DebugBreak>false</DebugBreak>
+            </Hook>
+            <Hook name="lookup_nomatch">
+                <Name>lookup_nomatch</Name>
+                <Script><![CDATA[task.logmsg("debug",thisConnector.getName()+": On No Match for " + work.getString("lookupemployeeid"));
+//system.skipEntry();]]></Script>
+                <Enabled>true</Enabled>
+                <DebugBreak>false</DebugBreak>
+            </Hook>
+        </Hooks>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <Reconnect>
+            <InheritFrom>[parent]</InheritFrom>
+            <parameter name="initreconnect">false</parameter>
+            <parameter name="numberOfRetries">1</parameter>
+            <parameter name="retryDelay">10</parameter>
+            <ReconnectRules/>
+        </Reconnect>
+        <Operations/>
+        <PoolDefinition>
+            <InheritFrom>system:/Connectors/ibmdi.LDAP</InheritFrom>
+            <Enabled>false</Enabled>
+            <MinPoolSize>0</MinPoolSize>
+            <PurgeInterval>0</PurgeInterval>
+            <InitializeAttempts>1</InitializeAttempts>
+        </PoolDefinition>
+        <PoolInstance>
+            <Enabled>false</Enabled>
+            <ExhaustedPoolBehavior>Wait</ExhaustedPoolBehavior>
+        </PoolInstance>
+        <InitializeOption>0</InitializeOption>
+    </Connector>
+</MetamergeConfig>
